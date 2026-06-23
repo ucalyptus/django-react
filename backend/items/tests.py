@@ -135,3 +135,18 @@ class ItemAPITestCase(TestCase):
             self.detail_url(item2.pk), {"name": "Alpha"}, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    # ------------------------------------------------------------------
+    # Trap 5: created_at / updated_at are read-only (client can't set them)
+    # ------------------------------------------------------------------
+    def test_timestamps_are_read_only(self):
+        fake_ts = "2000-01-01T00:00:00Z"
+        response = self.client.post(
+            self.list_url,
+            {"name": "Widget", "group": "Primary", "created_at": fake_ts, "updated_at": fake_ts},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        data = response.json()
+        self.assertNotEqual(data["created_at"], fake_ts)
+        self.assertNotEqual(data["updated_at"], fake_ts)
