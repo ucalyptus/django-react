@@ -30,7 +30,7 @@ No additional database server process is required; the file is created on first 
 - Django migrations work identically; schema evolution is unaffected
 
 **Negative / Trade-offs:**
-- **Multi-process write contention:** gunicorn's default multi-worker mode (`--workers N`) spawns N processes that share the same SQLite file. SQLite's file-level locking means concurrent writes will produce `OperationalError: database is locked`. Mitigation: run gunicorn with `--workers 1`, or enable WAL mode (`PRAGMA journal_mode=WAL`) which allows one writer + many readers
+- **Multi-process write contention (local dev only):** When running gunicorn with multiple workers against the same SQLite file, concurrent writes may produce `OperationalError: database is locked`. Mitigation: run with `--workers 1`, or enable WAL mode (`PRAGMA journal_mode=WAL`). In production (Cloudflare D1), concurrency is handled at the edge
 - Not suitable for production horizontal scaling (multiple EC2 instances cannot share a file-based DB without a shared filesystem like EFS)
 - No native JSON column support in older SQLite versions (available in SQLite ≥ 3.38, which ships with Python 3.11+)
 - No role-based access control; the file is readable by any OS user with filesystem access

@@ -35,6 +35,6 @@ Key integration points:
 
 **Negative / Trade-offs:**
 - A `npm run build` step must precede `collectstatic` in any deployment pipeline; forgetting this step serves a stale frontend
-- WhiteNoise is not a CDN; high-traffic static file serving should eventually route through Cloudflare's cache (which is already present via the tunnel) or a dedicated object store
+- WhiteNoise is not a CDN; in production, static files are served by Cloudflare Pages with edge caching, which already provides CDN distribution
 - Client-side routing requires the Django catch-all URL to return `index.html` for unknown paths, which can mask genuine 404s from the API if routes are misconfigured
 - React bundle size is larger than an HTMX+Django-templates approach; not a concern at current traffic levels

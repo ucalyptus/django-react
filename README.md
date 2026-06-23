@@ -1,8 +1,29 @@
-# mychoice
+# MyChoice
 
-Django REST API + React SPA for managing items.
+React SPA + Cloudflare Pages Functions API for managing items, with D1 database.
 
-## Backend
+## Live
+
+- **https://mychoice.ucalyptus.me** — custom domain
+- **https://mychoice.pages.dev** — Cloudflare Pages direct URL
+
+## Architecture
+
+- **Frontend:** React + TypeScript + Vite, deployed to Cloudflare Pages
+- **API:** Cloudflare Pages Functions (`/items/*`) with D1 database
+- **Database:** Cloudflare D1 (SQLite-compatible, edge-replicated)
+
+## Local Development
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm run dev    # proxies /items to localhost:8000 for Django backend
+```
+
+### Backend (Django — for local dev/testing)
 
 ```bash
 cd backend
@@ -14,19 +35,15 @@ python manage.py runserver
 
 API at http://localhost:8000/items/
 
-## Frontend (dev)
+### Production Build
 
 ```bash
-cd frontend
-npm install
-npm run dev   # proxies /items to localhost:8000
+cd frontend && npm run build    # outputs to backend/staticfiles/frontend/
+npx wrangler pages deploy backend/staticfiles/frontend --project-name mychoice
 ```
 
-## Production (single server)
+### Tests
 
 ```bash
-cd frontend && npm run build        # outputs to backend/staticfiles/frontend/
-cd ../backend
-python manage.py collectstatic --noinput
-gunicorn config.wsgi:application --bind 0.0.0.0:8950 --workers 2
+python -m pytest test_api.py -v    # 13 API tests against live deployment
 ```
