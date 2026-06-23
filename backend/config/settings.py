@@ -62,12 +62,11 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Frontend SPA path (built by Vite into staticfiles/frontend/)
 FRONTEND_DIR = BASE_DIR / "staticfiles" / "frontend"
 
+# Serve Vite frontend assets (index.html, /assets/*.js) from root via WhiteNoise
+WHITENOISE_ROOT = FRONTEND_DIR
+
 # CORS — allow all origins in dev
 CORS_ALLOW_ALL_ORIGINS = True
 
-# In prod you would instead use:
-# CORS_ALLOW_ALL_ORIGINS = False
-# CORS_ALLOWED_ORIGINS = [
-#     "http://localhost:5173",
-#     "https://mychoice.ucalyptus.me",
-# ]
+# Disable Cross-Origin-Opener-Policy — it breaks ES module loading with crossorigin
+SECURE_CROSS_ORIGIN_OPENER_POLICY = None
