@@ -10,5 +10,5 @@ def spa_index(request, path=""):
 
 urlpatterns = [
     path("items/", include("items.urls")),
-    re_path(r"^(?!items/|static/).*$", spa_index),
+    re_path(r"^(?!items/|static/|assets/).*$", spa_index),
 ]
