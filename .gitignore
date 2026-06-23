@@ -7,3 +7,6 @@ backend/staticfiles/staticfiles.json
 frontend/node_modules/
 frontend/dist/
 *.env
+.wrangler/
+__pycache__/
+screenshots/

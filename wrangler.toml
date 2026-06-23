@@ -1,0 +1,9 @@
+name = "mychoice"
+compatibility_date = "2026-06-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "backend/staticfiles/frontend"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mychoice-db"
+database_id = "6478f9bd-5f6d-4f39-a35b-8a47655a50f5"
